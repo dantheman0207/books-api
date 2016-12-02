@@ -69,6 +69,11 @@ router.use('/api', require('./users'));
 router.use('/api/', require('./books'));
 router.use('/api', require('./notes'));
 
+router.get('/', function(req, res) {
+    "use strict";
+    res.status(200).send('Books API V1');
+});
+
 function errorHandler(res, id, type) {
     "use strict";
     return function(object) {

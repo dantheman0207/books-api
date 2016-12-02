@@ -1,3 +1,4 @@
+'use strict';
 let express = require('express');
 let router = express.Router({mergeParams: true});
 let models = require('../models');

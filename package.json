@@ -17,5 +17,10 @@
     "sequelize-cli": "^2.4.0",
     "serve-favicon": "~2.3.0",
     "sqlite3": "^3.1.8"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "sqlite3": "^3.1.8",
+    "supertest": "^2.0.1"
   }
 }
