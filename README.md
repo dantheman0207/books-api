@@ -3,9 +3,9 @@ API for note-taking service directed at books
 
 # COMPLETED
  - CREATE / READ / DELETE USER
-    - DELETE USER DELETEs child BOOK and NOTE as well
+    - DELETE USER DELETE child BOOK and NOTE as well
  - CREATE / READ / UPDATE / DELETE BOOK
-    - DELETE BOOK DELETEs child NOTE as well
+    - DELETE BOOK DELETE child NOTE as well
  - CREATE / READ / UPDATE / DELETE NOTE
  
 
