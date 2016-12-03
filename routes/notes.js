@@ -130,9 +130,11 @@ router.delete('/user/:user_id/book/:book_id/note/:note_id', function(req, res) {
 
     req.note
         .then(function (note) {
-            note.destroy();
+            return note.destroy();
+        })
+        .then(() => {
+            res.send();
         });
-    res.send();
 });
 
 module.exports = router;

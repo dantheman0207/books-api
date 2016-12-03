@@ -94,10 +94,10 @@ router.put('/user/:user_id/book/:book_id', function(req, res) {
 /* Destroy a Book
  */
 router.delete('/user/:user_id/book/:book_id', function(req, res) {
-    controller.destroyBookAndNotes(req.book);
-
-    // close connection ( NOT blocked by delete operations )
-    res.send();
+    controller.destroyBookAndNotes(req.book)
+        .then(() => {
+            res.send();
+        });
 });
 
 module.exports = router;

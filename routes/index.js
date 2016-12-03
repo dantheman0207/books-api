@@ -3,11 +3,6 @@ let router = express.Router({mergeParams: true});
 let models = require('../models');
 
 let middleware = function(req, res, next) {
-    console.log('root get - params: ');
-    Object.keys(req.params).forEach(function(key, index) {
-        "use strict";
-        console.log(index + ': ' + key + ': ' + req.params[key]);
-    });
     next();
 };
 
@@ -22,7 +17,6 @@ router.all('/api/user/:user_id/book/:book_id/note/:note_id/', middleware);
  * Sets req.user_id as the user id (as a Sequelize DB object)
  */
 router.param('user_id', function(req, res, next, id) {
-    console.log('param user_id fn called');
     // @TODO: Validate id { i \in int ; 1 <= i <= MAXINT }
     req.user = models.User.findById(id);
     req.user_id = req.user
@@ -38,7 +32,6 @@ router.param('user_id', function(req, res, next, id) {
  * Sets req.book_id as the book id (as a Sequelize DB object)
  */
 router.param('book_id', function(req, res, next, id) {
-    console.log('param book_id fn called');
     // @TODO: Validate id { i \in int ; 1 <= i <= MAXINT }
     req.book = models.Book.findById(id);
     req.book_id = req.book
@@ -54,7 +47,6 @@ router.param('book_id', function(req, res, next, id) {
  * Sets req.note_id as the note id (as a Sequelize DB object)
  */
 router.param('note_id', function(req, res, next, id) {
-    console.log('param note_id fn called');
     // @TODO: Validate id { i \in int ; 1 <= i <= MAXINT }
     req.note = models.Notes.findById(id);
     req.note_id = req.note

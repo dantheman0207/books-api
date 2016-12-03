@@ -2,32 +2,20 @@
 
 let app      = require('../app');
 let request  = require('supertest');
+let tester   = require('./testHarness');
 
-describe('GET user', function () {
-    before(function () {
-        return require('../models').sequelize.sync();
-    });
+// Global test setup
+before(function () {
+    this.data = {
+        user: {username: 'johndoe', email: 'john@doe.com'},
+        book: {name: 'Zen and the Art of Motorcycle Maintenance', isbn: '9780688002305'},
+        note: {title: 'Yet another note...', pg: 8, endPg: 12, content: 'This is all the content in this note.'}
+    };
+    return require('../models').sequelize.sync();
+});
 
-    beforeEach(function () {
-        this.models = require('../models');
+beforeEach(function () {
+    this.models = require('../models');
 
-        return Promise.all([
-            this.models.User.destroy({ truncate: true }),
-            this.models.Book.destroy({ truncate: true }),
-            this.models.Notes.destroy({ truncate: true })
-        ]);
-    });
-
-    it('API loads correctly', function (done) {
-        request(app).get('/').expect(200, done);
-    });
-
-    it('lists a user if there is one', function (done) {
-        this.models.User.create({ username: 'johndoe', email: 'john@doe.com' })
-            .then(function () {
-                request(app).get('/user/1').expect(/johndoe/, done);
-            }, function(err) {
-                console.log('\n\nERROR creating user: ' + err + '\n\n');
-            })
-    });
+    return tester.clearDB(this.models);
 });

@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
             autoIncrement: true
         },
         name: DataTypes.STRING,
-        isbn: DataTypes.STRING,
+        isbn: DataTypes.CHAR(13),
         lastPg: DataTypes.INTEGER
     }, {
         classMethods: {

@@ -15,11 +15,14 @@ router.post('/user', function(req, res) {
 			}
 		},
 		'username': {
-			optional: true
+			notEmpty: false
 		}
 	};
 	req.checkBody(schema);
 
+	if ( !(req.body.username || req.body.email) ) {
+        res.status(500).send('invalid input');
+    }
 	// create User
 	models.User.create({
 		username: req.body.username,
@@ -31,16 +34,11 @@ router.post('/user', function(req, res) {
 /* Get User info
 */
 router.get('/user/:user_id', function(req,res) {
-    console.log('get user called for id: ' + req.params.user_id + '\nwith user: ' + req.user);
-    console.log('req.params:');
-    Object.keys(req.params).forEach(function(key, index) {
-        "use strict";
-        console.log(index + ': ' + key + ': ' + req.params[key]);
-    });
-
     req.user
         .then(function(user) {
-            res.send(user);
+            if (user) {
+                res.send(user);
+            }
         });
 });
 
@@ -93,10 +91,11 @@ router.delete('/user/:user_id', function(req, res) {
         })
         .then(function (user) {
             // destroy user
-            user.destroy();
+            return user.destroy();
+        })
+        .then(() => {
+            res.send();
         });
-    // close connection ( NOT blocked by delete operations )
-    res.send();
 });
 
 module.exports = router;
