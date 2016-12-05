@@ -18,7 +18,7 @@ describe('User', function () {
         });
 
         it('doesn\'t let you get a non-existent user', function (done) {
-            request(app).get('/api/user/' + Math.pow(9,9))
+            request(app).get('/api/user/' + Math.pow(7,7))
                 .expect(500, done)
         })
     });
@@ -58,8 +58,8 @@ describe('User', function () {
         })
     });
 
-   /* describe('PUT', function () {
-        beforeEach(function() {
+    describe('PUT', function () {
+        /*beforeEach(function() {
             return this.models.User.create(this.data.user);
         });
 
@@ -123,8 +123,8 @@ describe('User', function () {
                         done();
                     }
                 });
-        });
-    });*/
+        });*/
+    });
 
     describe('DELETE', function () {
         beforeEach(function() {

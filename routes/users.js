@@ -1,7 +1,6 @@
 let express = require('express');
 let router = express.Router({mergeParams: true});
 let models = require('../models');
-let booksController = require('./controllers/booksController');
 
 /* Create a User
 */
@@ -27,15 +26,17 @@ router.post('/user', function(req, res) {
 	models.User.create({
 		username: req.body.username,
         email: req.body.email
-	});
-	res.send();
+	})
+    .then(() => {
+        res.send();
+    });
 });
 
 /* Get User info
 */
 router.get('/user/:user_id', function(req,res) {
     req.user
-        .then(function(user) {
+        .then((user) => {
             if (user) {
                 res.send(user);
             }
@@ -60,38 +61,22 @@ router.put('/user/:user_id', function(req, res) {
     req.checkBody(schema);
 
     req.user
-        .then(function (user) {
+        .then((user) => {
             user.update(req.body);
+        })
+        .then(() => {
+            res.send();
         });
-
-    res.send();
 });
 
 /* Delete a User
  */
 router.delete('/user/:user_id', function(req, res) {
-    req.user_id
-        .then(function (userID) {
-            // find and destroy child books
-            let parameters = {
-                where: {
-                    UserId: userID
-                }
-            };
-            return models.Book.findAll(parameters)
-        })
-        .then(function (books) {
-            return books.map(book => {
-                return booksController.destroyBookAndNotes(book);
-            })
-        })
-        .then(function () {
-            // find user
-            return req.user;
-        })
-        .then(function (user) {
-            // destroy user
-            return user.destroy();
+    req.user
+        .then((user) => {
+            "use strict";
+            let params = {cascade: true};
+            user.destroy(params);
         })
         .then(() => {
             res.send();

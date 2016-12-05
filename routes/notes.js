@@ -8,7 +8,7 @@ let models = require('../models');
 router.get('/user/:user_id/book/:book_id/note/:note_id', function(req,res) {
     let note = req.note;
     note
-        .then(function(note) {
+        .then((note) => {
             res.send(note);
         });
 });
@@ -17,7 +17,7 @@ router.get('/user/:user_id/book/:book_id/note/:note_id', function(req,res) {
  */
 router.get('/user/:user_id/book/:book_id/note', function(req,res) {
     req.book_id
-        .then(function(bookID) {
+        .then((bookID) => {
             "use strict";
             let parameters = {
                 where: {
@@ -26,7 +26,7 @@ router.get('/user/:user_id/book/:book_id/note', function(req,res) {
             };
             return models.Notes.findAll(parameters);
         })
-        .then(function(notes) {
+        .then((notes) => {
             res.send(notes);
         });
 });
@@ -65,7 +65,7 @@ router.post('/user/:user_id/book/:book_id/note', function(req, res) {
 	req.checkBody(schema);
 
     req.book_id
-        .then(function (bookID) {
+        .then((bookID) => {
             // create Note
             let note = {
                 title:  req.body.title,
@@ -75,9 +75,10 @@ router.post('/user/:user_id/book/:book_id/note', function(req, res) {
                 BookId: bookID
             };
             return models.Notes.create(note);
+        })
+        .then(() => {
+            res.send();
         });
-
-    res.send();
 });
 
 /* Update a Note
@@ -116,21 +117,21 @@ router.put('/user/:user_id/book/:book_id/note/:note_id', function(req, res) {
 
     // update model
     req.note
-        .then(function (note) {
+        .then((note) => {
             note.update(req.body);
+        })
+        .then(() => {
+            res.send();
         });
-
-    res.send();
 });
 
 /* Destroy a Note
  */
 router.delete('/user/:user_id/book/:book_id/note/:note_id', function(req, res) {
-    // @TODO: don't forget to destroy child resources
-
     req.note
-        .then(function (note) {
-            return note.destroy();
+        .then((note) => {
+            let params = {cascade: true};
+            return note.destroy(params);
         })
         .then(() => {
             res.send();

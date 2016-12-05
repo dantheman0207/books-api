@@ -14,7 +14,7 @@ module.exports = function (sequelize, DataTypes) {
             associate: function (models) {
                 // associations can be defined here
                 Book.belongsTo(models.User, {onDelete: 'cascade'});
-                Book.hasMany(models.Notes);
+                Book.hasMany(models.Notes,  {onDelete: 'cascade'});
             }
         }
     });

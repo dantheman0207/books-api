@@ -1,14 +1,13 @@
 let express = require('express');
 let router = express.Router({mergeParams: true});
 let models = require('../models');
-let controller = require('./controllers/booksController');
 
 /* Get Book info
  */
 router.get('/user/:user_id/book/:book_id', function(req,res) {
     let book = req.book;
     book
-        .then(function(book) {
+        .then((book) => {
             res.send(book);
         });
 });
@@ -17,7 +16,7 @@ router.get('/user/:user_id/book/:book_id', function(req,res) {
  */
 router.get('/user/:user_id/book', function(req,res) {
     req.user_id
-        .then(function (userID) {
+        .then((userID) => {
             let parameters = {
                 where: {
                     UserId: userID
@@ -51,16 +50,17 @@ router.post('/user/:user_id/book', function(req, res) {
 
 	// create Book
     req.user_id
-        .then(function (userID) {
+        .then((UserId) => {
             let book = {
                 name: req.body.name,
                 isbn: req.body.isbn,
-                UserId: userID
+                UserId
             };
             return models.Book.create(book);
-        });
-
-	res.send();
+        })
+        .then(() => {
+            res.send();
+        })
 });
 
 /* Update a Book
@@ -84,17 +84,23 @@ router.put('/user/:user_id/book/:book_id', function(req, res) {
     req.checkBody(schema);
 
     req.book
-        .then(function (book) {
+        .then((book) => {
             book.update(req.body);
+        })
+        .then(() => {
+            res.send();
         });
-
-    res.send();
 });
 
 /* Destroy a Book
  */
 router.delete('/user/:user_id/book/:book_id', function(req, res) {
-    controller.destroyBookAndNotes(req.book)
+    req.book
+        .then((book) => {
+            "use strict";
+            let params = {cascade:true};
+            return book.destroy();
+        })
         .then(() => {
             res.send();
         });

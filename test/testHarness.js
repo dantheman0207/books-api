@@ -9,7 +9,7 @@ class tester {
     }
 
     static createUserAndBook (model, data) {
-        model.User.create(data.user)
+        return model.User.create(data.user)
             .then((user) => {
                 let id = {id: user.id};
                 let book = Object.assign(data.book, id);
@@ -18,15 +18,7 @@ class tester {
     }
 
     static createUserAndBookAndNote (model, data) {
-        console.log('\n********************')
-
-        console.log('model: ');
-        console.log(model);
-
-        console.log('data: ');
-        console.log(data);
-
-        model.User.create(data.user)
+        return model.User.create(data.user)
             .then((user) => {
                 return user.id;
             })
@@ -74,11 +66,12 @@ class tester {
 
     static clearDB (model) {
         let params = {restartIdentity: true, cascade: true};
-        /*return Promise.all([
+        let promises = [
             model.Notes.truncate(params),
             model.Book.truncate(params),
             model.User.truncate(params)
-        ]);*/
+        ];
+        return Promise.all(promises);
     }
 
     static duplicateData (amt, data) {
