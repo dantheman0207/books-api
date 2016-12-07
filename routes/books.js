@@ -1,6 +1,7 @@
 let express = require('express');
-let router = express.Router({mergeParams: true});
-let models = require('../models');
+let router  = express.Router({mergeParams: true});
+let models  = require('../models');
+let helper  = require('./controllers/booksController');
 
 /* Get Book info
  */
@@ -97,9 +98,11 @@ router.put('/user/:user_id/book/:book_id', function (req, res) {
 router.delete('/user/:user_id/book/:book_id', function (req, res) {
     req.book
         .then((book) => {
-            "use strict";
+            helper.destroyBookAndNotes(book);
+            /*
             let params = {cascade: true};
             return book.destroy();
+            */
         })
         .then(() => {
             res.send();
