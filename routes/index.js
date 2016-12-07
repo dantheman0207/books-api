@@ -68,7 +68,7 @@ router.get('/', function(req, res) {
 
 function errorHandler(res, id, type) {
     "use strict";
-    return function(object) {
+    return (object) => {
         return new Promise((resolve, reject) => {
             if (object) {
                 resolve(object);
