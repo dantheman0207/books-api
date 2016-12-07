@@ -90,7 +90,8 @@ router.put('/user/:user_id/book/:book_id/note/:note_id', function(req, res) {
             optional: true,
             isLength: {
                 options: [{ min: 2, max: 80 }],
-                errorMessage: 'Must be between 2 and 80 chars long' // Error message for the validator, takes precedent over parameter message
+                errorMessage: 'Must be between 2 and 80 chars long'
+                // Error message for the validator, takes precedent over parameter message
             },
         },
         'pg': {
