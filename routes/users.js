@@ -60,6 +60,10 @@ router.put('/user/:user_id', function(req, res) {
     };
     req.checkBody(schema);
 
+    if (!req.body) {
+        res.status(500).send("Cannot PUT a user without any data attached")
+    }
+
     req.user
         .then((user) => {
             user.update(req.body);
