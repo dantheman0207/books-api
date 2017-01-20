@@ -4,12 +4,12 @@ let tester = require('../test/testHarness');
 let data = {
     firstNote: {
         title: 'So it begins...',
-        pg: 0, endPg: 1, content: 'This is the first note, about the first book....'
+        pg: "0", endPg: "1", content: 'This is the first note, about the first book....'
     },
     firstBook: {
         name: 'Zen and the Art of Motorcycle Maintenance: An Inquiry Into Values',
         isbn: '0688002307',
-        lastPg: 0
+        lastPg: "0"
     },
     firstUser: {
         username: 'daniel',
