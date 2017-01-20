@@ -44,11 +44,10 @@ router.post('/user/:user_id/book/:book_id/note', function(req, res) {
             },
 		},
 		'pg': {
-			isInt: true
+			notEmpty: true
 		},
 		'endPg': {
-			optional: true,
-            isInt: true
+			optional: true
 		},
 		'content': {
 			notEmpty: true,
@@ -95,12 +94,10 @@ router.put('/user/:user_id/book/:book_id/note/:note_id', function(req, res) {
             },
         },
         'pg': {
-            optional: true,
-            isInt: true
+            optional: true
         },
         'endPg': {
-            optional: true,
-            isInt: true
+            optional: true
         },
         'content': {
             optional: true,

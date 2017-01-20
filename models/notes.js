@@ -7,8 +7,8 @@ module.exports = function (sequelize, DataTypes) {
             autoIncrement: true
         },
         title: DataTypes.STRING,
-        pg: DataTypes.INTEGER,
-        endPg: DataTypes.INTEGER,
+        pg: DataTypes.STRING,
+        endPg: DataTypes.STRING,
         content: DataTypes.TEXT
     }, {
         classMethods: {
