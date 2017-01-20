@@ -76,7 +76,7 @@ router.post('/user/:user_id/book/:book_id/note', function(req, res) {
             return models.Notes.create(note);
         })
         .then((note) => {
-            res.end(note.id);
+            res.end("\"" + note.id + "\"");
         });
 });
 
