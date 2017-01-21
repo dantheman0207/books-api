@@ -59,8 +59,8 @@ router.post('/user/:user_id/book', function (req, res) {
             };
             return models.Book.create(book);
         })
-        .then(() => {
-            res.send();
+        .then((book) => {
+            res.end(book.id);
         })
 });
 
