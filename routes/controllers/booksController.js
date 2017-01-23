@@ -23,7 +23,7 @@ class booksController {
             })
             .then(function (book) {
                 // destroy book
-                book.destroy();
+                return book.destroy();
             });
     }
 }

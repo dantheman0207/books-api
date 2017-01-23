@@ -59,7 +59,7 @@ describe('User', function () {
     });
 
     describe('PUT', function () {
-        /*beforeEach(function() {
+        beforeEach(function() {
             return this.models.User.create(this.data.user);
         });
 
@@ -103,7 +103,7 @@ describe('User', function () {
                 .type('json')
                 .send({username})
                 .end(function (err, res) {
-                    if (err || res.status != 500) {
+                    if (err || res.status >= 400) {
                         done(new Error('accepted invalid username'));
                     } else {
                         done();
@@ -117,13 +117,13 @@ describe('User', function () {
                 .type('json')
                 .send({email})
                 .end(function (err, res) {
-                    if (err || res.status != 500) {
+                    if (err || res.status >= 400) {
                         done(new Error('accepted invalid email'));
                     } else {
                         done();
                     }
                 });
-        });*/
+        });
     });
 
     describe('DELETE', function () {

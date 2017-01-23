@@ -13,7 +13,10 @@ class tester {
             .then((user) => {
                 let id = {id: user.id};
                 let book = Object.assign(data.book, id);
-                return model.Book.create(book);
+                return Promise.all([user.id,model.Book.create(book)]);
+            })
+            .then(([UserId, book]) => {
+                return {UserId, BookId: book.id}
             });
     }
 
@@ -33,7 +36,10 @@ class tester {
             .then((BookId) => {
                 let foreign_key = {BookId};
                 let note = Object.assign(data.note, foreign_key);
-                return model.Notes.create(note);
+                return Promise.all([BookId, model.Notes.create(note)]);
+            })
+            .then(([BookId, note]) => {
+                return {BookId, NoteId : note.id}
             });
     }
 

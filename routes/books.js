@@ -60,7 +60,7 @@ router.post('/user/:user_id/book', function (req, res) {
             return models.Book.create(book);
         })
         .then((book) => {
-            res.end(book.id);
+            res.end("\"" + book.id + "\"");
         })
 });
 
@@ -86,10 +86,10 @@ router.put('/user/:user_id/book/:book_id', function (req, res) {
 
     req.book
         .then((book) => {
-            book.update(req.body);
+            return book.update(req.body); // return confirmation when update returns???
         })
         .then(() => {
-            res.send();
+            res.end();
         });
 });
 
@@ -98,14 +98,14 @@ router.put('/user/:user_id/book/:book_id', function (req, res) {
 router.delete('/user/:user_id/book/:book_id', function (req, res) {
     req.book
         .then((book) => {
-            helper.destroyBookAndNotes(book);
+            return helper.destroyBookAndNotes(book);
             /*
             let params = {cascade: true};
             return book.destroy();
             */
         })
         .then(() => {
-            res.send();
+            res.end();
         });
 });
 

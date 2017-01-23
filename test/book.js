@@ -50,13 +50,95 @@ describe('Book', function () {
     });
 
     describe('PUT', function () {
+        beforeEach(function() {
+            return this.models.Book.create(this.data.book)
+                .then((book) => {
+                    this.book = book.id;
+                })
+        });
 
+        it('lets you update book name', function (done) {
+            let name = 'a book name';
+            request(app).put('/api/user/' + this.user + '/book/' + this.book)
+                .type('json')
+                .send({name})
+                .then(() => {
+                    return this.models.Book.findById(this.book)
+                })
+                .then((book) => {
+                    if ( book.name !== name ) {
+                        done(new Error('book name not changed'));
+                    } else {
+                        done();
+                    }
+                })
+        });
+
+        it('lets you update isbn', function (done) {
+            let isbn = '1234567891013';
+            request(app).put('/api/user/' + this.user + "/book/" + this.book)
+                .type('json')
+                .send({isbn})
+                .then(() => {
+                    return this.models.Book.findById(this.book)
+                })
+                .then((book) => {
+                    if ( book.isbn !== isbn ) {
+                        done(new Error('isbn not changed'));
+                    } else {
+                        done();
+                    }
+                })
+        });
+
+        it('lets you update last pg read', function (done) {
+            let lastPg = 5;
+            request(app).put('/api/user/' + this.user + "/book/" + this.book)
+                .type('json')
+                .send({lastPg})
+                .then(() => {
+                    return this.models.Book.findById(this.book)
+                })
+                .then((book) => {
+                    if ( book.lastPg !== lastPg ) {
+                        done(new Error('lastPg not changed'));
+                    } else {
+                        done();
+                    }
+                })
+        });
+
+        it('rejects invalid username', function (done) {
+            let username = 4;
+            request(app).put('/api/user/' + this.data.user.id)
+                .type('json')
+                .send({username})
+                .end(function (err, res) {
+                    if (err || res.status >= 400) {
+                        done(new Error('accepted invalid username'));
+                    } else {
+                        done();
+                    }
+                });
+        });
+
+        it('rejects invalid email', function (done) {
+            let email = 4;
+            request(app).put('/api/user/' + this.data.user.id)
+                .type('json')
+                .send({email})
+                .end(function (err, res) {
+                    if (err || res.status >= 400) {
+                        done(new Error('accepted invalid email'));
+                    } else {
+                        done();
+                    }
+                });
+        });
     });
 
-    /* Not currently working but tests in dev env seem to indicate the issue
-     *  is no longer that the book/note(s) are not deleted, but that the promise
-     *  returns too soon. Rewrite tests to retry db several times...?
-     *
+    /*
+     */
     describe('DELETE', function () {
 
         beforeEach(function() {
@@ -101,10 +183,10 @@ describe('Book', function () {
                 .then(() => {
                     return request(app).delete(url)
                 })
-                .then(() => {
+                .then(({BookId, NoteId}) => {
                     let promises = [
-                        this.models.Book.findById(this.data.book.id),
-                        this.models.Notes.findById(this.data.note.id)
+                        this.models.Book.findById(BookId),
+                        this.models.Notes.findById(NoteId)
                     ];
                     return Promise.all(promises);
                 })
@@ -122,5 +204,4 @@ describe('Book', function () {
                 });
         })
     });
-    @TODO: REMOVE ME  */
 });
