@@ -85,13 +85,17 @@ router.put('/user/:user_id/book/:book_id', function (req, res) {
             isInt: true
         }
     };
-    req.checkBody(schema);
+    //req.checkBody(schema);
+    debugger;
 
     req.book
         .then((book) => {
-            return book.update(req.body); // return confirmation when update returns???
+            debugger;
+            book = Object.assign(book, req.body);
+            return book.save();
         })
         .then((book) => {
+            debugger;
             res.end();
         });
 });

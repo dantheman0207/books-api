@@ -154,6 +154,13 @@ describe('Book', function () {
                             }
                         });
                 })
+                .then((err, res) => {
+                    if (err || res.status >= 400) {
+                        //done();
+                    } else {
+                        done(new Error('accepted invalid isbn'));
+                    }
+                })
                 .then(() => {
                     return this.models.Book.findById(this.book)
                 })
