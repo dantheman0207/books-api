@@ -119,7 +119,7 @@ router.put('/user/:user_id/book/:book_id/note/:note_id', function(req, res) {
             note.update(req.body);
         })
         .then(() => {
-            res.send();
+            res.end();
         });
 });
 

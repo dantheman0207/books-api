@@ -26,11 +26,14 @@ describe('Book', function () {
 
     describe('POST', function () {
 
-        it('lets you create a book', function (done) {
+        it('creates a book', function (done) {
             let url = '/api/user/1/book';
+            let name = this.data.book.name;
+            let isbn = this.data.book.isbn;
+            let lastPg = 1;
             request(app).post(url)
                 .type('json')
-                .send({name: this.data.book.name, isbn: this.data.book.isbn})
+                .send({name, isbn, lastPg})
                 .then(() => {
                     let params = {
                         where: {
@@ -41,9 +44,15 @@ describe('Book', function () {
                 })
                 .then((book) => {
                     if (book) {
+                        // check attributes of newly created book
+                        if (book.name   !== name)   done(new Error('name not correct'));
+                        if (book.isbn   !== isbn)   done(new Error('isbn not correct'));
+                        if (book.lastPg !== lastPg) done(new Error('lastPg incorrect'));
+                        if (book.UserId !== 1)      done(new Error('userid incorrect'));
+                        // else: no problems
                         done();
                     } else {
-                        done(new Error('just-created book not found in db'));
+                        done(new Error('created book not found in db'));
                     }
                 });
         });
@@ -51,34 +60,47 @@ describe('Book', function () {
 
     describe('PUT', function () {
         beforeEach(function() {
-            return this.models.Book.create(this.data.book)
+            return this.user
+                .then(() => {
+                    return this.models.Book.create(this.data.book);
+                })
                 .then((book) => {
                     this.book = book.id;
                 })
         });
 
         it('lets you update book name', function (done) {
-            let name = 'a book name';
-            request(app).put('/api/user/' + this.user + '/book/' + this.book)
-                .type('json')
-                .send({name})
+            let name = "book name";
+            let userPromise = Promise.resolve(this.user);
+            let bookPromise = Promise.resolve(this.book);
+            return Promise.all([userPromise, bookPromise])
+                .then(([user, book]) => {
+                    request(app).put('/api/user/' + user.id + '/book/' + book)
+                        .type('json')
+                        .send({name})
+                })
                 .then(() => {
                     return this.models.Book.findById(this.book)
                 })
                 .then((book) => {
-                    if ( book.name !== name ) {
-                        done(new Error('book name not changed'));
-                    } else {
+                    if ( book.name === name ) {
                         done();
+                    } else {
+                        done(new Error('book name not changed'));
                     }
                 })
         });
 
         it('lets you update isbn', function (done) {
             let isbn = '1234567891013';
-            request(app).put('/api/user/' + this.user + "/book/" + this.book)
-                .type('json')
-                .send({isbn})
+            let userPromise = Promise.resolve(this.user);
+            let bookPromise = Promise.resolve(this.book);
+            return Promise.all([userPromise, bookPromise])
+                .then(([user, book]) => {
+                    request(app).put('/api/user/' + user.id + "/book/" + book)
+                        .type('json')
+                        .send({isbn})
+                })
                 .then(() => {
                     return this.models.Book.findById(this.book)
                 })
@@ -92,46 +114,85 @@ describe('Book', function () {
         });
 
         it('lets you update last pg read', function (done) {
-            let lastPg = 5;
-            request(app).put('/api/user/' + this.user + "/book/" + this.book)
-                .type('json')
-                .send({lastPg})
+            let lastPg = '5';
+            let userPromise = Promise.resolve(this.user);
+            let bookPromise = Promise.resolve(this.book);
+            return Promise.all([userPromise, bookPromise])
+                .then(([user, book]) => {
+                    request(app).put('/api/user/' + user.id + "/book/" + book)
+                            .type('json')
+                            .send({lastPg})
+                })
                 .then(() => {
                     return this.models.Book.findById(this.book)
                 })
                 .then((book) => {
-                    if ( book.lastPg !== lastPg ) {
-                        done(new Error('lastPg not changed'));
-                    } else {
+                    if ( book.lastPg === lastPg ) {
                         done();
+                    } else {
+                        done(new Error('lastPg not changed'));
                     }
                 })
         });
 
-        it('rejects invalid username', function (done) {
-            let username = 4;
-            request(app).put('/api/user/' + this.data.user.id)
-                .type('json')
-                .send({username})
-                .end(function (err, res) {
-                    if (err || res.status >= 400) {
-                        done(new Error('accepted invalid username'));
+        it('rejects invalid isbn', function (done) {
+            this.timeout(5000);
+
+            let isbn = false;
+            let userPromise = Promise.resolve(this.user);
+            let bookPromise = Promise.resolve(this.book);
+            return Promise.all([userPromise, bookPromise])
+                .then(([user, book]) => {
+                    request(app).put('/api/user/' + user.id + "/book/" + book)
+                        .type('json')
+                        .send({isbn})
+                        .end(function (err, res) {
+                            if (err || res.status >= 400) {
+                                //done();
+                            } else {
+                                done(new Error('accepted invalid isbn'));
+                            }
+                        });
+                })
+                .then(() => {
+                    return this.models.Book.findById(this.book)
+                })
+                .then((book) => {
+                    if ( book.isbn === this.data.book.isbn ) {
+                        done()
                     } else {
-                        done();
+                        done(new Error('accepted (some form of) invalid isbn'))
                     }
                 });
         });
 
-        it('rejects invalid email', function (done) {
-            let email = 4;
-            request(app).put('/api/user/' + this.data.user.id)
-                .type('json')
-                .send({email})
-                .end(function (err, res) {
-                    if (err || res.status >= 400) {
-                        done(new Error('accepted invalid email'));
+        it('rejects invalid last pg', function (done) {
+            this.timeout(5000);
+
+            let lastPg = false;
+            let userPromise = Promise.resolve(this.user);
+            let bookPromise = Promise.resolve(this.book);
+            return Promise.all([userPromise, bookPromise])
+                .then(([user, book]) => {
+                    request(app).put('/api/user/' + user.id + "/book/" + book)
+                        .type('json')
+                        .send({lastPg})
+                        .end(function (err, res) {
+                            if (err || res.status >= 400) {
+                                //done();
+                            } else {
+                                done(new Error('accepted invalid last pg'));
+                            }
+                        })
+                })
+                .then(() => {
+                    return this.models.Book.findById(this.book)
+                })
+                .then((book) => {
+                    if ( book.lastPg === this.data.book.lastPg) {
+                        done()
                     } else {
-                        done();
+                        done(new Error('accepted (some form of) invalid lastPg'))
                     }
                 });
         });

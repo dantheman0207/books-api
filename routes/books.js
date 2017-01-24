@@ -45,6 +45,10 @@ router.post('/user/:user_id/book', function (req, res) {
         },
         'isbn': {
             optional: true
+        },
+        'lastPg': {
+            optional: true,
+            isInt: true
         }
     };
     req.checkBody(schema);
@@ -52,11 +56,7 @@ router.post('/user/:user_id/book', function (req, res) {
     // create Book
     req.user_id
         .then((UserId) => {
-            let book = {
-                name: req.body.name,
-                isbn: req.body.isbn,
-                UserId
-            };
+            let book = Object.assign(req.body, {UserId});
             return models.Book.create(book);
         })
         .then((book) => {
@@ -78,6 +78,9 @@ router.put('/user/:user_id/book/:book_id', function (req, res) {
             },
         },
         'isbn': {
+            optional: true
+        },
+        'lastPg': {
             optional: true,
             isInt: true
         }
@@ -88,7 +91,7 @@ router.put('/user/:user_id/book/:book_id', function (req, res) {
         .then((book) => {
             return book.update(req.body); // return confirmation when update returns???
         })
-        .then(() => {
+        .then((book) => {
             res.end();
         });
 });
