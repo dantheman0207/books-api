@@ -25,11 +25,11 @@ Notes can be accessed at '/user/USER_ID/book/BOOK_ID/note/[NOTE_ID]'
 
 	npm i
 
-## Test
+### Test
 
 	npm test
 
-## Run
+### Run
 
 	npm start
 
