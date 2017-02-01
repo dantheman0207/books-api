@@ -19,6 +19,7 @@ HTTP DELETE = Delete
 
 ### Users
 Users can be accessed at 
+
 	/user/[USER_ID]
 
 	User = {
