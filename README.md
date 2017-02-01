@@ -50,7 +50,7 @@ Notes can be accessed at '/user/USER_ID/book/BOOK_ID/note/[NOTE_ID]'
 
 	cd books-api
 
-	npm i
+	npm install
 
 ### Test
 
