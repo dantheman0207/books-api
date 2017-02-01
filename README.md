@@ -4,12 +4,24 @@ RESTful API for taking notes on books
 ## API
 All resources can be accessed at base URL '/api/'
 Each resource can be created, read, updated, and deleted.
+Each resource is assigned a unique ID when created.
+
+
 HTTP POST = Create
+
 HTTP GET = Read
+
 HTTP PUT = Update
+
 HTTP DELETE = Delete
+
 ### Users
 Users can be accessed at '/user/[USER_ID]'
+
+	User = {
+		username: String,
+		email: String
+	}
 
 ### Books
 Books can be accessed at '/user/USER_ID/book/[BOOK_ID]'
@@ -35,4 +47,4 @@ Notes can be accessed at '/user/USER_ID/book/BOOK_ID/note/[NOTE_ID]'
 
 
 ### Development
-For testing/production, the app uses an in-memory sqlite database. For development, it is configured to use a local Postgres database. Before running in development, changes these settings in [config.json](config/config.json)
+For testing/production, the app uses an in-memory sqlite database. For development, it is configured to use a local Postgres database. Before running in development, change these settings in [config.json](config/config.json)
