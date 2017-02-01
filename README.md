@@ -18,7 +18,8 @@ HTTP PUT = Update
 HTTP DELETE = Delete
 
 ### Users
-Users can be accessed at '/user/[USER_ID]'
+Users can be accessed at 
+	/user/[USER_ID]
 
 	User = {
 		username: STRING,
