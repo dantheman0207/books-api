@@ -5,6 +5,8 @@ RESTful API for taking notes on books
 All resources can be accessed at base URL '/api/'
 Each resource can be created, read, updated, and deleted.
 Each resource is assigned a unique ID when created.
+I used [sequelize](sequelizejs.com) ORM to abstract across databases.
+The data types used to define each resource are [here](http://docs.sequelizejs.com/en/latest/api/datatypes)
 
 
 HTTP POST = Create
@@ -19,15 +21,28 @@ HTTP DELETE = Delete
 Users can be accessed at '/user/[USER_ID]'
 
 	User = {
-		username: String,
-		email: String
+		username: STRING,
+		email: STRING
 	}
 
 ### Books
 Books can be accessed at '/user/USER_ID/book/[BOOK_ID]'
 
+	Book = {
+		name: STRING,
+        isbn: CHAR(13),
+        lastPg: INTEGER
+	}
+
 ### Notes
 Notes can be accessed at '/user/USER_ID/book/BOOK_ID/note/[NOTE_ID]'
+
+	Note = {
+		title: STRING,
+        pg: STRING,
+        endPg: STRING,
+        content: TEXT (long-form string)
+	}
 
 ## Install
 
