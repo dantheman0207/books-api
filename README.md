@@ -41,7 +41,7 @@ Notes can be accessed at '/user/USER_ID/book/BOOK_ID/note/[NOTE_ID]'
 		title: STRING,
         pg: STRING,
         endPg: STRING,
-        content: TEXT (long-form string)
+        content: TEXT  // (long-form string)
 	}
 
 ## Install
