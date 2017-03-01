@@ -2,7 +2,7 @@ let models = require('../../models');
 
 class booksController {
 
-    // returns a promise
+    // returns a promise that removes all child notes and then the book
     static destroyBookAndNotes(book) {
         "use strict";
         let parameters = {

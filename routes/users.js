@@ -1,5 +1,5 @@
 let express = require('express');
-let router = express.Router({mergeParams: true});
+let router = express.Router({mergeParams: true}); // to preserve parent router params
 let models = require('../models');
 
 /* Create a User

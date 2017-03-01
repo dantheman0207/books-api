@@ -1,5 +1,5 @@
 let express = require('express');
-let router  = express.Router({mergeParams: true});
+let router  = express.Router({mergeParams: true}); // to preserve parent router params
 let models  = require('../models');
 let helper  = require('./controllers/booksController');
 
@@ -51,6 +51,8 @@ router.post('/user/:user_id/book', function (req, res) {
             isInt: true
         }
     };
+
+    // validate body against schema
     req.checkBody(schema);
 
     // create Book
@@ -85,17 +87,15 @@ router.put('/user/:user_id/book/:book_id', function (req, res) {
             isInt: true
         }
     };
+
     //req.checkBody(schema);
-    debugger;
 
     req.book
         .then((book) => {
-            debugger;
             book = Object.assign(book, req.body);
             return book.save();
         })
         .then((book) => {
-            debugger;
             res.end();
         });
 });
@@ -106,7 +106,7 @@ router.delete('/user/:user_id/book/:book_id', function (req, res) {
     req.book
         .then((book) => {
             return helper.destroyBookAndNotes(book);
-            /*
+            /* IN THEORY THE BELOW CODE WORKS ... BUT IT NEVER DOES
             let params = {cascade: true};
             return book.destroy();
             */

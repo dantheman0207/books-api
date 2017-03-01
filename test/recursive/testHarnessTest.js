@@ -14,7 +14,6 @@ let data = {
  */
 tester.duplicateData(4, data)
     .then((dataset) => {
-        "use strict";
         console.log('\nRESULTS:\n');
         console.log(dataset);
     });
