@@ -51,10 +51,6 @@ describe('Note', function () {
         });
     });
 
-    describe('PUT', function () {
-
-    });
-
     describe('DELETE', function () {
 
         beforeEach(function() {
