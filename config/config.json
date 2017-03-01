@@ -11,13 +11,5 @@
     "dialect": "sqlite",
     "storage": ":memory:",
     "logging": false
-  },
-  "production": {
-    "dialect": "postgres",
-    "port": "5432",
-    "host": "fizzy-cherry.db.elephantsql.com",
-    "username": "pwdssmzo",
-    "password": "rP11uZAOIRftH2gu21iEB_zb9133ijkB",
-    "database": "pwdssmzo"
   }
 }
