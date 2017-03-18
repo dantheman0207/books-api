@@ -15,9 +15,9 @@
   "production": {
     "dialect": "postgres",
     "port": "5432",
-    "host": "fizzy-cherry.db.elephantsql.com",
-    "username": "pwdssmzo",
-    "password": "rP11uZAOIRftH2gu21iEB_zb9133ijkB",
-    "database": "pwdssmzo"
+    "host": process.env.PGHOST,
+    "username": process.env.PGUSER,
+    "password": process.env.PGPASSWORD,
+    "database": process.env.PGDATABASE
   }
 }

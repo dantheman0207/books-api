@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router({mergeParams: true});
 let models = require('../models');
 
-
+// This is the main parent router
 // We match all routes in API in order to trigger calls to this router object
 let middleware = function(req, res, next) {
     next();
@@ -13,6 +13,14 @@ router.all('/api/user/:user_id/book/', middleware);
 router.all('/api/user/:user_id/book/:book_id/', middleware);
 router.all('/api/user/:user_id/book/:book_id/note', middleware);
 router.all('/api/user/:user_id/book/:book_id/note/:note_id/', middleware);
+
+router.use('/api', require('./users'));
+router.use('/api/', require('./books'));
+router.use('/api', require('./notes'));
+
+router.get('/', function(req, res) {
+    res.status(200).send('Books API V1');
+});
 
 /* Returns a promise which calls next() when it resolves.
  * Sets req.user as the user
@@ -59,15 +67,7 @@ router.param('note_id', function(req, res, next, id) {
     next();
 });
 
-router.use('/api', require('./users'));
-router.use('/api/', require('./books'));
-router.use('/api', require('./notes'));
-
-router.get('/', function(req, res) {
-    "use strict";
-    res.status(200).send('Books API V1');
-});
-
+// error handler for promises
 function errorHandler(res, id, type) {
     "use strict";
     return (object) => {
