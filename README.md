@@ -9,7 +9,7 @@ The data types used in the resource definitions are [here](http://docs.sequelize
 
 
 ### Users
-Users can be accessed at '/api/user/[USER_ID]'
+Users can be accessed at `/api/user/[USER_ID]`
 
 	User = {
 		username: STRING,
@@ -17,7 +17,7 @@ Users can be accessed at '/api/user/[USER_ID]'
 	}
 
 ### Books
-Books can be accessed at '/api/user/USER_ID/book/[BOOK_ID]'
+Books can be accessed at `/api/user/USER_ID/book/[BOOK_ID]`
 
 	Book = {
 		name: STRING,
@@ -26,7 +26,7 @@ Books can be accessed at '/api/user/USER_ID/book/[BOOK_ID]'
 	}
 
 ### Notes
-Notes can be accessed at '/api/user/USER_ID/book/BOOK_ID/note/[NOTE_ID]'
+Notes can be accessed at `/api/user/USER_ID/book/BOOK_ID/note/[NOTE_ID]`
 
 	Note = {
 		title: STRING,
