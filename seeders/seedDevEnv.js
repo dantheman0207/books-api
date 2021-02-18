@@ -13,7 +13,7 @@ let data = {
     },
     firstUser: {
         username: 'daniel',
-        email: 'ransomdaniell@gmail.com'
+        email: 'ransomdaniell@yahoo.com'
     }
 };
 
